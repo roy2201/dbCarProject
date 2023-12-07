@@ -1,0 +1,46 @@
+.root {
+    -fx-background-color: #ecf0f1; /* Set the background color */
+}
+
+/* TextFields styling */
+.text-field {
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+    -fx-border-color: #bdc3c7; /* Set border color for text fields */
+    -fx-border-radius: 5;
+}
+
+/* PasswordField styling */
+.password-field {
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+    -fx-border-color: #bdc3c7; /* Set border color for password field */
+    -fx-border-radius: 5;
+}
+
+/* Buttons styling */
+.button {
+    -fx-background-color: #3498db; /* Set background color for buttons */
+    -fx-text-fill: #fff; /* Set text color for buttons */
+    -fx-font-size: 14px; /* Set font size for buttons */
+    -fx-padding: 10 20; /* Add padding to buttons */
+    -fx-background-radius: 5; /* Set border radius for buttons */
+    -fx-cursor: hand; /* Show hand cursor on hover */
+}
+
+/* Hover effect on buttons */
+.button:hover {
+    -fx-background-color: #2980b9; /* Set background color on hover */
+}
+
+/* Administration button specific styling */
+#adminButton {
+    -fx-background-color: #e74c3c; /* Set a different color for the admin button */
+    -fx-hover-highlight-fill: derive(#e74c3c, 30%); /* Darken the color on hover */
+}
+
+/* Label styling */
+#connectionLabel {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+}

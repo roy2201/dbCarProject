@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.LoginController">
+    <children>
+        <TextField fx:id="txtUser" layoutX="100.0" layoutY="75.0" promptText="Email" />
+        <PasswordField fx:id="txtPass" layoutX="100.0" layoutY="125.0" promptText="Password" />
+        <Button fx:id="btnlogin" layoutX="100.0" layoutY="175.0" mnemonicParsing="false" onAction="#Login" text="Sign In" />
+        <Button fx:id="btnsign" layoutX="200.0" layoutY="175.0" mnemonicParsing="false" onAction="#SignUp" text="Sign Up" />
+        <Button layoutX="150.0" layoutY="225.0" mnemonicParsing="false" onAction="#adminMode" text="Administration" />
+      <Label id="connectionLabel" layoutX="73.0" layoutY="260.0" prefHeight="18.0" prefWidth="240.0" text="Label" />
+    </children>
+</AnchorPane>

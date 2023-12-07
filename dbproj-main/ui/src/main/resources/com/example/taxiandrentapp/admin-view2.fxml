@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="btnPendingRequest" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.AdminController2">
+   <children>
+      <TableView fx:id="tableInfo" layoutX="330.0" layoutY="7.0" prefHeight="299.0" prefWidth="385.0" />
+      <Button layoutX="25.0" layoutY="230.0" mnemonicParsing="false" onAction="#securityPage" prefHeight="25.0" prefWidth="81.0" text="security">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="25.0" layoutY="268.0" mnemonicParsing="false" onAction="#firstAdminPage" prefHeight="25.0" prefWidth="81.0" text="back">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font></Button>
+      <Label fx:id="labelInfo" layoutX="33.0" layoutY="113.0" prefHeight="27.0" prefWidth="240.0" />
+      <VBox alignment="CENTER" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="240.0" spacing="5.0">
+         <children>
+            <TextField fx:id="txtRentInfoId" promptText="Request ID">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></TextField>
+            <TextField fx:id="txtPercentage" promptText="Refund Percentage">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></TextField>
+            <HBox alignment="CENTER" prefHeight="39.0" prefWidth="218.0" spacing="5.0">
+               <children>
+                  <Button fx:id="btnRefund" mnemonicParsing="false" onAction="#RefundClicked" prefHeight="32.0" prefWidth="97.0" text="Refund">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="btnPending" lineSpacing="5.0" mnemonicParsing="false" onAction="#ViewPendingRequest" prefHeight="32.0" prefWidth="133.0" text="Pending Requests">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font></Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="36.0" layoutY="166.0" prefHeight="39.0" prefWidth="248.0" spacing="5.0">
+         <children>
+            <TextField fx:id="txtCardNumber" promptText="card number">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></TextField>
+            <Button fx:id="btnViewAccount" mnemonicParsing="false" onAction="#ViewAccountClicked" prefHeight="23.0" prefWidth="106.0" text="View Account">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></Button>
+         </children>
+      </HBox>
+   </children>
+</Pane>

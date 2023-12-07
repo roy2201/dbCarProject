@@ -1,0 +1,27 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<GridPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="YourControllerClass">
+<padding>
+    <Insets top="20" right="20" bottom="20" left="20"/>
+</padding>
+<vgap>10</vgap>
+<hgap>10</hgap>
+
+<!-- Labels -->
+<Label text="Cardholder Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+<Label text="Card Number:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+<Label text="Expiry Date (MM/YYYY):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+<Label text="CVV:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+<!-- TextFields -->
+<TextField fx:id="nameTextField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+<TextField fx:id="cardNumberTextField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+<TextField fx:id="expiryDateTextField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+<TextField fx:id="cvvTextField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+<!-- Button -->
+<Button text="Add Card" onAction="#handleAddCard" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+</GridPane>

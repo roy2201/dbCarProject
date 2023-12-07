@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.AdminController1">
+    <Label layoutX="35.0" layoutY="15.0" text="Car Details">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+
+    <HBox layoutX="34.0" layoutY="50.0" spacing="20">
+        <VBox prefWidth="150">
+            <TextField fx:id="txtColor" promptText="Color" />
+            <TextField fx:id="txtYear" promptText="Year" />
+            <TextField fx:id="txtModel" promptText="Model" />
+            <TextField fx:id="txtType" promptText="Type" />
+        </VBox>
+        <VBox prefWidth="150">
+            <TextField fx:id="txtLocationId" promptText="Loc id" />
+            <TextField fx:id="txtInsuranceCost" promptText="Insurance cost" />
+            <TextField fx:id="txtPricePerDay" promptText="Price / day" />
+            <TextField fx:id="txtPenaltyPerDay" promptText="Penalty / day" />
+        </VBox>
+    </HBox>
+
+    <Button layoutX="296.0" layoutY="163.0" onAction="#AddCarBtn" text="Add Car" />
+
+    <HBox layoutX="527.0" layoutY="65.0" spacing="10">
+        <VBox prefWidth="100">
+            <TextField fx:id="txtDate1" promptText="Date 1" />
+            <TextField fx:id="txtGreaterThan" onAction="#ViewGreaterThanORLessThan" promptText="Less than" />
+            <TextField fx:id="txtArrivalDate" onAction="#ArrivalDate" promptText="yyyy-mm-dd" />
+        </VBox>
+        <VBox prefHeight="53.0" prefWidth="100">
+            <TextField fx:id="txtDate2" promptText="Date 2" />
+            <TextField fx:id="txtLessThan" promptText="Greater than" />
+        </VBox>
+        <VBox prefWidth="60">
+            <Button mnemonicParsing="false" onAction="#ViewBetweenTwoDates" text="Go" />
+            <Button mnemonicParsing="false" onAction="#ViewGreaterThanORLessThan" text="Go" />
+            <Button mnemonicParsing="false" onAction="#ArrivalDate" text="Go" />
+        </VBox>
+    </HBox>
+
+    <Label fx:id="labelInfo" layoutX="33.0" layoutY="167.0" prefWidth="200.0" text="Label" />
+    <Label fx:id="labelInfoRemove" layoutX="528.0" layoutY="155.0" prefWidth="200.0" text="Label" />
+
+    <Button layoutX="12.0" layoutY="496.0" onAction="#logOutPage" text="Logout" />
+    <Button layoutX="11.0" layoutY="528.0" onAction="#nextPage" text="Next Page" />
+
+    <Label fx:id="labelUpdateInsurance" layoutX="31.0" layoutY="422.0" prefWidth="245.0" text="Label" />
+
+    <HBox layoutX="28.0" layoutY="275.0" spacing="10" />
+
+    <HBox layoutX="33.0" layoutY="346.0" spacing="10" />
+
+    <Label fx:id="labelINfo" layoutX="33.0" layoutY="312.0" prefWidth="267.0" text="Label" />
+
+    <TableView fx:id="tableAdmin1" layoutX="358.0" layoutY="275.0" prefHeight="293.0" prefWidth="458.0" />
+
+    <Button layoutX="440.0" layoutY="238.0" mnemonicParsing="false" onAction="#ViewAllCars" text="All Cars" />
+    <Button layoutX="519.0" layoutY="238.0" mnemonicParsing="false" onAction="#ViewExpired" text="Expired" />
+    <Button layoutX="358.0" layoutY="238.0" mnemonicParsing="false" onAction="#ViewAllCustomers" text="All Users" />
+    <Button layoutX="601.0" layoutY="238.0" mnemonicParsing="false" onAction="#ViewRented" text="Rented" />
+
+    <Label layoutX="418.0" layoutY="23.0" prefWidth="91.0" text="Car Control">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+
+    <Label layoutX="422.0" layoutY="65.0" text="Cars rented btw" />
+    <Label layoutX="422.0" layoutY="96.0" prefWidth="91.0" text="Cars generated" />
+    <Label layoutX="422.0" layoutY="120.0" prefWidth="91.0" text="Cars arrived" />
+      <Button layoutX="31.0" layoutY="354.0" mnemonicParsing="false" onAction="#UpdateInsurance" prefWidth="130.0" text="Insurance History" />
+      <Button layoutX="31.0" layoutY="388.0" onAction="#UpdateInsurance" prefWidth="130.0" text="Update Car Insurance" />
+     <TextField fx:id="txtCarId2" layoutX="182.0" layoutY="354.0" prefHeight="25.0" prefWidth="70.0" promptText="Car id" />
+     <Button layoutX="30.0" layoutY="283.0" onAction="#ConfirmArrival" prefHeight="26.0" prefWidth="132.0" text="Confirm Car Arrival" />
+     <TextField fx:id="txtRentId" layoutX="182.0" layoutY="284.0" prefWidth="70.0" promptText="Rent id" />
+   <Button layoutX="682.0" layoutY="238.0" mnemonicParsing="false" onAction="#viewAllRents" text="Rents Info" />
+   <VBox layoutX="250.0" layoutY="465.0" prefHeight="88.0" prefWidth="100.0">
+      <children>
+            <TextField fx:id="txtCarId1" onAction="#ViewCarById" promptText="Car id" />
+            <Button mnemonicParsing="false" onAction="#RemoveCarById" text="Remove car" />
+            <Button mnemonicParsing="false" onAction="#ViewCarById" text="View car" />
+      </children>
+   </VBox>
+</Pane>
