@@ -79,6 +79,10 @@ public class CustomerController implements javafx.fxml.Initializable {
         }
     }
 
+    void clearTable(TableView tableView) {
+        cardsAndRents.getColumns().clear();
+        cardsAndRents.getItems().clear();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -172,7 +176,7 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     void viewCardsAction() {
-        cardsAndRents.getColumns().clear();
+        clearTable(cardsAndRents);
         data = FXCollections.observableArrayList();
         String query = "exec spViewCards ?";
         try {
@@ -187,7 +191,7 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     public void viewRentsAction() {
-        cardsAndRents.getColumns().clear();
+        clearTable(cardsAndRents);
         data = FXCollections.observableArrayList();
         String query = "exec spViewRents ?";
         try {
@@ -303,6 +307,7 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     void filteredSearchAction() {
+        carsTable.getItems().clear();
         carsTable.getColumns().clear();
         String query = "exec spViewMatchingCars ?, ?";
         try {
@@ -317,77 +322,94 @@ public class CustomerController implements javafx.fxml.Initializable {
     }
 
     boolean isEmpty() {
-        return (cardTextField.getText().isEmpty() || rentIdTextField.getText().isEmpty() || cardNumberTextField.getText().isEmpty());
+        return (cardTextField.getText().isEmpty() || rentIdTextField.getText().isEmpty() || emailTextField.getText().isEmpty());
     }
+
+    void clearLabels(Label... labels) {
+        System.out.println("Start reset function");
+        for (Label label : labels) {
+            if(label == null) continue;
+            label.setText("");
+        }
+        System.out.println("End reset function");
+    }
+
     @FXML
     void initRequest() {
-        errorRequestLabel.setText("");
-        cardNumberErrorLabel.setText("");
-        emailErrorLabel.setText("");
-        rentIdErrorLabel.setText("");
+        clearLabels(errorRequestLabel,cardNumberErrorLabel,emailErrorLabel,rentIdErrorLabel);
         System.out.println("init .................");
-        if(isEmpty()) { return ; }
-        String query = "exec spInitRequest ?, ?, ?, ?, ?, ?, ?";
-        try {
-            System.out.println("1");
-            CallableStatement cst = con.prepareCall(query);
-            cst.setString(1, emailTextField.getText());
-            cst.setInt(2, Integer.parseInt(rentIdTextField.getText()));
-            cst.setInt(3, Integer.parseInt(cardTextField.getText()));
-            cst.registerOutParameter(4, Types.INTEGER);
-            cst.registerOutParameter(5, Types.INTEGER);
-            cst.registerOutParameter(6, Types.INTEGER);
-            cst.registerOutParameter(7, Types.INTEGER);
-            cst.execute();
-            int emailError = cst.getInt(4);
-            int rentIdError = cst.getInt(5);
-            int cardNumberError = cst.getInt(6);
-            int errorCode = cst.getInt(7);
-            System.out.println("1");
-            if(errorCode == 1) {
-                System.out.println("2");
-                errorRequestLabel.setText("Request initiated");
-                errorRequestLabel.setTextFill(Color.GREEN);
-                emailErrorLabel.setText("Valid email");
-                emailErrorLabel.setTextFill(Color.GREEN);
-                rentIdErrorLabel.setText("Valid Rent Id");
-                rentIdErrorLabel.setTextFill(Color.GREEN);
-                cardNumberErrorLabel.setText("Valid card");
-                cardNumberErrorLabel.setTextFill(Color.GREEN);
-            } else {
-                System.out.println("init .................");
-                errorRequestLabel.setText("Error\nRequest Aborted");
-                errorRequestLabel.setTextFill(Color.RED);
-                if(emailError == 1) {
-                    emailErrorLabel.setText("Invalid email");
-                    emailErrorLabel.setTextFill(Color.RED);
-                } else {
+        String query = "exec spInitRequest ?, ?, ?, ?, ?, ?, ?, ?";
+        if(!isEmpty()) {
+            try {
+                System.out.println("1");
+                CallableStatement cst = con.prepareCall(query);
+                cst.setString(1, emailTextField.getText());
+                cst.setInt(2, Integer.parseInt(rentIdTextField.getText()));
+                cst.setInt(3, Integer.parseInt(cardTextField.getText()));
+                cst.registerOutParameter(4, Types.INTEGER);
+                cst.registerOutParameter(5, Types.INTEGER);
+                cst.registerOutParameter(6, Types.INTEGER);
+                cst.registerOutParameter(7, Types.INTEGER);
+                cst.registerOutParameter(8, Types.INTEGER);
+                cst.execute();
+                int emailError = cst.getInt(4);
+                int rentIdError = cst.getInt(5);
+                int cardNumberError = cst.getInt(6);
+                int alreadyRefundedError = cst.getInt(7);
+                int errorCode = cst.getInt(8);
+                System.out.println("error code: " + errorCode);
+                System.out.println("email code: " + emailError);
+                System.out.println("rent code: " + rentIdError);
+                System.out.println("card code: " + cardNumberError);
+                System.out.println("already code: " + alreadyRefundedError);
+                if (errorCode == 1) {
+                    System.out.println("2");
+                    errorRequestLabel.setText("Request initiated");
+                    errorRequestLabel.setTextFill(Color.GREEN);
                     emailErrorLabel.setText("Valid email");
                     emailErrorLabel.setTextFill(Color.GREEN);
-                }
-                if(rentIdError == 1) {
-                    rentIdErrorLabel.setText("Invalid Rent Id");
-                    rentIdErrorLabel.setTextFill(Color.RED);
-                } else {
                     rentIdErrorLabel.setText("Valid Rent Id");
                     rentIdErrorLabel.setTextFill(Color.GREEN);
-                }
-                if(cardNumberError == 1) {
-                    cardNumberErrorLabel.setText("Invalid card");
-                    cardNumberErrorLabel.setTextFill(Color.RED);
-                } else {
                     cardNumberErrorLabel.setText("Valid card");
                     cardNumberErrorLabel.setTextFill(Color.GREEN);
+                } else {
+                    errorRequestLabel.setText("Error\nRequest Aborted");
+                    errorRequestLabel.setTextFill(Color.RED);
+                    if (emailError == 1) {
+                        emailErrorLabel.setText("Invalid email");
+                        emailErrorLabel.setTextFill(Color.RED);
+                    } else {
+                        emailErrorLabel.setText("Valid email");
+                        emailErrorLabel.setTextFill(Color.GREEN);
+                    }
+                    if (rentIdError == 1) {
+                        rentIdErrorLabel.setText("Invalid Rent Id");
+                        rentIdErrorLabel.setTextFill(Color.RED);
+                    } else if(alreadyRefundedError == 1) {
+                        rentIdErrorLabel.setText("Already Requested");
+                        rentIdErrorLabel.setTextFill(Color.PURPLE);
+                    }
+                    else {
+                        rentIdErrorLabel.setText("Valid Rent Id");
+                        rentIdErrorLabel.setTextFill(Color.GREEN);
+                    }
+                    if (cardNumberError == 1) {
+                        cardNumberErrorLabel.setText("Invalid card");
+                        cardNumberErrorLabel.setTextFill(Color.RED);
+                    } else {
+                        cardNumberErrorLabel.setText("Valid card");
+                        cardNumberErrorLabel.setTextFill(Color.GREEN);
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     @FXML
     void viewRequests() {
-        cardsAndRents.getColumns().clear();
+        clearTable(cardsAndRents);
         String query = "exec spViewMyRequest ?";
         try{
             PreparedStatement ps = con.prepareStatement(query);

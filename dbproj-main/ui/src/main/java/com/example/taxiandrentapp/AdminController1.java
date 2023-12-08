@@ -329,7 +329,6 @@ public class AdminController1 {
         }
     }
 
-
     @FXML
     void ConfirmArrival() {
         //penalty why ?
