@@ -1,8 +1,6 @@
 package com.example.taxiandrentapp;
 
 import java.sql.*;
-import java.util.concurrent.atomic.AtomicReference;
-
 
 public class LoginModel {
 
@@ -41,11 +39,11 @@ public class LoginModel {
         return isValid;
     }
 
-    void addCustomer(String fname, String lname, String age, String address, String email, String password) throws Exception {
+    void addCustomer(String fName, String lName, String age, String address, String email, String password) throws Exception {
         String query = "exec spAddCustomer ?,?,?,?,?,?";
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, fname);
-        ps.setString(2, lname);
+        ps.setString(1, fName);
+        ps.setString(2, lName);
         ps.setString(3, age);
         ps.setString(4, address);
         ps.setString(5, email);
@@ -56,17 +54,15 @@ public class LoginModel {
     boolean validSignUp(String email) {
         //true means valid , i.e: not duplicated email
         String query = "exec spValidSignUp ?, ?";
-        var valid = new AtomicReference<>(true);
         try {
             CallableStatement cst = con.prepareCall(query);
             cst.setString(1, email);
             cst.registerOutParameter(2, Types.BOOLEAN);
             cst.execute();
-            valid.set(cst.getBoolean(2));
+            return cst.getBoolean(2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //return valid.get();
         return true;
     }
 

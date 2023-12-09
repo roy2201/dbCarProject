@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -8,11 +13,27 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="7120f56a-429a-4b3b-90e0-6b48f0916511">
-      <console name="Connection" type="STANDARD" schema="" session="Main" />
+      <console name="Connection" type="STANDARD" schema="db_owner" session="Main"><![CDATA[use carrentaldb
+select * from tblCustomer
+select * from tblInsurance]]></console>
     </connection>
+  </component>
+  <component name="DBNavigator.Project.DatabaseEditorStateManager">
+    <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.MethodExecutionManager">
+    <method-browser />
+    <execution-history>
+      <group-entries value="true" />
+      <execution-inputs />
+    </execution-history>
+    <argument-values-cache />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -26,12 +47,12 @@
           <description value="" />
           <database-type value="GENERIC" />
           <config-type value="CUSTOM" />
-          <database-version value="9999.0" />
+          <database-version value="16.0" />
           <driver-source value="EXTERNAL" />
-          <driver-library value="C:\Users\Rida\Downloads\mssql-jdbc-9.4.1.jre11.jar" />
+          <driver-library value="C:\Users\Rida\Downloads\sqljdbc_12.4.2.0_enu\sqljdbc_12.4\enu\jars\mssql-jdbc-12.4.2.jre11.jar" />
           <driver value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
           <url-type value="CUSTOM" />
-          <url value="jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=carrentaldb" />
+          <url value="jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=carrentaldb;encrypt=true;trustServerCertificate=true" />
           <type value="USER_PASSWORD" />
           <user value="sa" />
           <deprecated-pwd value="cm9vdDEyMzEyMw==" />
@@ -241,7 +262,6 @@
           <content-type name="JSON" enabled="true" />
           <content-type name="JSON5" enabled="true" />
           <content-type name="Groovy" enabled="true" />
-          <content-type name="AIDL" enabled="true" />
           <content-type name="YAML" enabled="true" />
           <content-type name="Manifest" enabled="true" />
         </content-types>
@@ -507,5 +527,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>

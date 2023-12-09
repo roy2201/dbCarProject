@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    private LoginModel loginModel = new LoginModel();
+    private final LoginModel loginModel = new LoginModel();
     @FXML
     private Label connectionLabel;
     @FXML
@@ -33,39 +33,44 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public void addLogin(String email) throws SQLException {
-        String query = "EXEC spLogIn ?, ?";
-        CallableStatement cs = con.prepareCall(query);
-        cs.setString(1, email);
-        cs.registerOutParameter(2, Types.INTEGER);
-        cs.execute();
-        loginModel.setLogged(cs.getInt(2));
+    public void addLogin(String email) {
+        try {
+            String query = "EXEC spLogIn ?, ?";
+            CallableStatement cs = con.prepareCall(query);
+            cs.setString(1, email);
+            cs.registerOutParameter(2, Types.INTEGER);
+            cs.execute();
+            LoginModel.setLogged(cs.getInt(2));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Login(ActionEvent event){
-        if(txtPass.getText().isEmpty() || txtUser.getText().isEmpty()) return ;
-        try{
-            if(loginModel.validLogin(txtUser.getText(), txtPass.getText())){
-                try{
-                    db = Database.getInstance();
-                    con = db.connect();
-                    addLogin(txtUser.getText());
-                    ((Node)event.getSource()).getScene().getWindow().hide();
-                    Stage stage = new Stage();
-                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("customer-view.fxml"));
-                    Scene scene = new Scene(fxmlLoader.load());
-                    stage.setTitle("Customer Mode");
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if(!txtPass.getText().isEmpty() && !txtUser.getText().isEmpty()) {
+            try {
+                if (loginModel.validLogin(txtUser.getText(), txtPass.getText())) {
+                    try {
+                        db = Database.getInstance();
+                        con = db.connect();
+                        addLogin(txtUser.getText());
+                        ((Node) event.getSource()).getScene().getWindow().hide();
+                        Stage stage = new Stage();
+                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("customer-view.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
+                        stage.setTitle("Customer Mode");
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else
+                    connectionLabel.setText("Invalid information");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            else
-                connectionLabel.setText("Invalid information");
-        }
-        catch (SQLException e){
-            e.printStackTrace();
+        } else {
+            connectionLabel.setText("Invalid Input");
         }
     }
 

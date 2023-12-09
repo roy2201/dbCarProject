@@ -20,13 +20,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-@SuppressWarnings("rawtypes")
+import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
+
 public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
-    private TableView carsTable;
+    private TableView<?> carsTable;
     @FXML
-    private TableView cardsAndRents;
+    private TableView<?> cardsAndRents;
     @FXML
     private TextField nbDaysTextField;
     @FXML
@@ -62,13 +63,12 @@ public class CustomerController implements javafx.fxml.Initializable {
     @FXML
     private Label cardNumberErrorLabel;
 
-    private ObservableList<ObservableList> data;
+    private ObservableList<ObservableList<String>> data;
     private Connection con;
     private float total;
 
     private static final String TABLE_CAR = "tblCar";
     private static final String TABLE_BRANCH = "tblBranch";
-    private static final String COL_PRICE = "Price";
 
     public CustomerController() {
         try {
@@ -79,10 +79,11 @@ public class CustomerController implements javafx.fxml.Initializable {
         }
     }
 
-    void clearTable(TableView tableView) {
-        cardsAndRents.getColumns().clear();
-        cardsAndRents.getItems().clear();
+    void clearTable(TableView<?> tableView) {
+        tableView.getColumns().clear();
+        tableView.getItems().clear();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -138,9 +139,7 @@ public class CustomerController implements javafx.fxml.Initializable {
     @FXML
     public void viewReceiptAction() throws SQLException {
         receiptList.getItems().clear();
-        if(carIdTextField.getText().isBlank() || nbDaysTextField.getText().isBlank()) {
-            validDataLabel.setText("Blank input");
-        } else {
+        if (isNumeric(carIdTextField.getText()) && isNumeric(nbDaysTextField.getText())) {
             String query = "exec spViewReceipt ?, ?, ?, ?";
             CallableStatement cst = con.prepareCall(query);
             cst.setInt(1, Integer.parseInt(carIdTextField.getText()));
@@ -152,25 +151,27 @@ public class CustomerController implements javafx.fxml.Initializable {
             int errorCode = cst.getInt(3);
             double discount;
             if (errorCode == 2) {
-                validDataLabel.setText("Invalid Id");
+                validDataLabel.setText("INVALID ID");
                 validDataLabel.setTextFill(Color.RED);
             } else {
-                validDataLabel.setText("Valid Id");
+                validDataLabel.setText("VALID ID");
                 validDataLabel.setTextFill(Color.GREEN);
-                receiptList.getItems().add("Price = " + price);
+                receiptList.getItems().add("PRICE = " + price);
                 boolean isPremium = checkPremium();
                 if (!isPremium) {
                     discount = 0;
-                    receiptList.getItems().add("No Premium (- 0%)");
+                    receiptList.getItems().add("NO PREMIUM (- 0%)");
                 } else {
                     discount = (int) price * 0.25;
-                    receiptList.getItems().add("Premium (- 25%) : - " + discount);
-                    validDataLabel.setText("Valid");
+                    receiptList.getItems().add("PREMIUM (- 25%) : - " + discount);
+                    validDataLabel.setText("VALID");
                     validDataLabel.setTextFill(Color.GREEN);
                 }
-                receiptList.getItems().add("Total = " + (float) (price - discount));
+                receiptList.getItems().add("TOTAL = " + (float) (price - discount));
                 this.total = (float) (price - discount);
             }
+        } else {
+            validDataLabel.setText("INVALID INPUT");
         }
     }
 
@@ -181,7 +182,7 @@ public class CustomerController implements javafx.fxml.Initializable {
         String query = "exec spViewCards ?";
         try {
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1,LoginModel.getLogged());
+            ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             drawTable(rs, cardsAndRents);
         } catch (Exception e) {
@@ -196,7 +197,7 @@ public class CustomerController implements javafx.fxml.Initializable {
         String query = "exec spViewRents ?";
         try {
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1,LoginModel.getLogged());
+            ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
             drawTable(rs, cardsAndRents);
         } catch (Exception e) {
@@ -208,40 +209,34 @@ public class CustomerController implements javafx.fxml.Initializable {
     public void payAction() throws SQLException {
         String cardNumber = cardNumberTextField.getText();
         int errorCode;
-        if (cardNumber.isBlank()) {
-            statusLabel.setText("Blank input");
-            statusLabel.setTextFill(Color.RED);
-        } else {
-            //transaction
+        if (isNumeric(cardNumberTextField.getText())) {
             String query = "exec spRentCar ?, ?, ?, ?, ?, ?";
             CallableStatement cs = con.prepareCall(query);
-            cs.setInt(1,LoginModel.getLogged());
-            cs.setFloat(2,total);
-            cs.setInt(3,Integer.parseInt(cardNumber));
-            cs.setInt(4,Integer.parseInt(carIdTextField.getText()));
-            cs.setInt(5,Integer.parseInt(nbDaysTextField.getText()));
-            cs.registerOutParameter(6,Types.INTEGER);
-            System.out.println("executing ...");
+            cs.setInt(1, LoginModel.getLogged());
+            cs.setFloat(2, total);
+            cs.setInt(3, Integer.parseInt(cardNumber));
+            cs.setInt(4, Integer.parseInt(carIdTextField.getText()));
+            cs.setInt(5, Integer.parseInt(nbDaysTextField.getText()));
+            cs.registerOutParameter(6, Types.INTEGER);
             cs.execute();
             errorCode = cs.getInt(6);
-            System.out.println("error code is "+errorCode);
-            System.out.println("login is : "+ LoginModel.getLogged());
-            System.out.println("card is "+ cardNumber);
-            if(errorCode == 5) {
-                statusLabel.setText("Insufficient amount");
+            if (errorCode == 5) {
+                statusLabel.setText("Insufficient balance");
                 statusLabel.setTextFill(Color.RED);
-            } else if (errorCode == 2){
-                statusLabel.setText("Invalid Card");
+            } else if (errorCode == 2) {
+                statusLabel.setText("Invalid card");
                 statusLabel.setTextFill(Color.ORANGE);
             } else if (errorCode == 1) {
-                statusLabel.setText("Transaction succeed");
+                statusLabel.setText("Rent succeeded");
                 statusLabel.setTextFill(Color.GREEN);
             } else if (errorCode == 3) {
-                statusLabel.setText("sorry car is rented");
+                statusLabel.setText("Car not available");
                 statusLabel.setTextFill(Color.PURPLE);
             }
             cs.close();
-            System.out.println("closing ...");
+        } else {
+            statusLabel.setText("Invalid Input");
+            statusLabel.setTextFill(Color.RED);
         }
     }
 
@@ -253,10 +248,7 @@ public class CustomerController implements javafx.fxml.Initializable {
         float penalty;
         int daysOverDue;
         String str = rentInfoIdTextField.getText();
-        if(str.isBlank()) {
-            daysLeftLabel.setText("Invalid input");
-            daysLeftLabel.setTextFill(Color.RED);
-        } else {
+        if(isNumeric(str)) {
             rentId = Integer.parseInt(str);
             String query = "exec spViewDaysLeft ?,?,?,?,?";
             CallableStatement cs = con.prepareCall(query);
@@ -280,6 +272,9 @@ public class CustomerController implements javafx.fxml.Initializable {
             } else if (errorCode == 2) {
                 daysLeftLabel.setText("Rent doesn't exist");
             }
+        } else {
+            daysLeftLabel.setText("Invalid input");
+            daysLeftLabel.setTextFill(Color.RED);
         }
     }
 
@@ -433,7 +428,6 @@ public class CustomerController implements javafx.fxml.Initializable {
         }
     }
 
-    @SuppressWarnings("all")
     void drawTable(ResultSet rs, TableView tableView) {
         tableView.getColumns().clear();
         data = FXCollections.observableArrayList();

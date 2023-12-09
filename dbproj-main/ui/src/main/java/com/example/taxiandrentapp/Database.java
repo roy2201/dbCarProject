@@ -1,23 +1,20 @@
 package com.example.taxiandrentapp;
 
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.TableView;
-
-import java.sql.*;
-
-import static java.lang.Class.forName;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Database {
 
     public static Database databaseInstance;
     public static Connection connection;
 
-    private Database() throws SQLException {
+    private Database() {
     }
 
     public static final String USERNAME = "sa";
     public static final String PASSWORD = "root123123";
-    public static final String CONN_STR = "jdbc:sqlserver://localhost\\sqlexpress:1433;databaseName=carrentaldb;"+
+    public static final String CONN_STR = "jdbc:sqlserver://localhost\\sqlExpress:1433;databaseName=CarRentalDb;"+
             "encrypt=true;trustServerCertificate=true";
 
     public static Database getInstance() throws SQLException {

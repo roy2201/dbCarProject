@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings("rawtypes")
+import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
+
+//@SuppressWarnings("all")
 public class AdminController2 {
 
     Database db;
@@ -79,31 +81,28 @@ public class AdminController2 {
 
     @FXML
     public void ViewAccountClicked() {
+        int errorCode;
         resetLabel(labelInfo);
-        if (txtCardNumber.getText().isEmpty()) {
-            labelInfo.setText("Please input card number");
+        if (txtCardNumber.getText().isEmpty() || !isNumeric(txtCardNumber.getText())) {
+            labelInfo.setText("Empty or Invalid Input");
         } else {
-            labelInfo.setText("");
-            String msg = "";
-            int errorCode;
+            resetLabel(labelInfo);
             String query = "exec spCheckCardIdAvailability ?,?";
-            try {
-                CallableStatement cs = con.prepareCall(query);
+            try (CallableStatement cs = con.prepareCall(query)) {
                 cs.setString(1, txtCardNumber.getText());
                 cs.registerOutParameter(2, Types.INTEGER);
                 cs.execute();
                 errorCode = cs.getInt(2);
                 if (errorCode == 1) {
-                    msg = "Card number found";
+                    labelInfo.setText("Card Found");
                     String query1 = "select * from fnViewCardById (?)";
-                    cs = con.prepareCall(query1);
-                    cs.setString(1, txtCardNumber.getText());
-                    ResultSet rs = cs.executeQuery();
+                    CallableStatement cs2 = con.prepareCall(query1);
+                    cs2.setString(1, txtCardNumber.getText());
+                    ResultSet rs = cs2.executeQuery();
                     drawTable(rs, tableInfo);
                 } else if (errorCode == -1) {
-                    msg = "Enter valid card number";
+                    labelInfo.setText("Invalid Card Number");
                 }
-                labelInfo.setText(msg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,26 +111,22 @@ public class AdminController2 {
 
     @FXML
     public void ViewPendingRequest() {
-        resetLabel(labelInfo);
         int errorCode;
-        String msg = "";
-        CallableStatement cs;
         String query = "exec spCheckPendingRequestsAvailability ?";
-        try {
-            cs = con.prepareCall(query);
+        resetLabel(labelInfo);
+        try (CallableStatement cs = con.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.execute();
             errorCode = cs.getInt(1);
             if (errorCode == 1) {
-                msg = "There is requests not checked yet";
+                labelInfo.setText("Some Requests Still Unchecked");
                 String query1 = "select * from vwPendingRequests";
-                cs = con.prepareCall(query1);
-                ResultSet rs = cs.executeQuery();
+                CallableStatement cs2 = con.prepareCall(query1);
+                ResultSet rs = cs2.executeQuery();
                 drawTable(rs,tableInfo);
             } else if (errorCode == -1) {
-                msg = "No results found";
+                labelInfo.setText("All Requests Checked");
             }
-            labelInfo.setText(msg);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,43 +141,40 @@ public class AdminController2 {
             labelInfo.setText("Invalid percentage");
         else {
             String query = "exec spCheckRentInfoIdAvailability ?,?";
-            try {
-                CallableStatement cs;
-                cs = con.prepareCall(query);
-                cs.setString(1, txtRentInfoId.getText());
-                cs.registerOutParameter(2, Types.INTEGER);
-                //System.out.println("start1 exec");
-                cs.execute();
-                //System.out.println("finish1 exec");
-                AtomicInteger errorCode = new AtomicInteger(cs.getInt(2));
-                if (errorCode.get() == 1) {
-                    labelInfo.setText("Processing..");
-                    String query1 = "exec spRefund ?,?,?";
-                    cs = con.prepareCall(query1);
+            if(isNumeric(txtRentInfoId.getText()) && isNumeric(txtPercentage.getText())) {
+                try ( CallableStatement cs = con.prepareCall(query)) {
                     cs.setString(1, txtRentInfoId.getText());
-                    cs.setString(2, txtPercentage.getText());
-                    cs.registerOutParameter(3, Types.INTEGER);
+                    cs.registerOutParameter(2, Types.INTEGER);
                     cs.execute();
-                    errorCode.set(cs.getInt(3));
-                    if (errorCode.get() == -1){
-                       labelInfo.setText("No enough balance to make this transaction");
-                    } else if (errorCode.get() == 1) {
-                        labelInfo.setText("Transaction done");
+                    AtomicInteger errorCode = new AtomicInteger(cs.getInt(2));
+                    if (errorCode.get() == 1) {
+                        labelInfo.setText("Processing..");
+                        String query1 = "exec spRefund ?,?,?";
+                        CallableStatement cs2 = con.prepareCall(query1);
+                        cs2.setString(1, txtRentInfoId.getText());
+                        cs2.setString(2, txtPercentage.getText());
+                        cs2.registerOutParameter(3, Types.INTEGER);
+                        cs2.execute();
+                        errorCode.set(cs2.getInt(3));
+                        if (errorCode.get() == -1) {
+                            labelInfo.setText("No enough balance to make this transaction");
+                        } else if (errorCode.get() == 1) {
+                            labelInfo.setText("Transaction done");
+                        }
+                    } else if (errorCode.get() == -1) {
+                        labelInfo.setText("Enter a valid rent info id");
+                    } else if (errorCode.get() == 0) {
+                        labelInfo.setText("This request is already checked");
+                    } else if (errorCode.get() == -5) {
+                        labelInfo.setText("invalid refund percentage");
                     }
-                } else if (errorCode.get() == -1){
-                    labelInfo.setText("Enter a valid rent info id");
-                } else if (errorCode.get() == 0) {
-                    labelInfo.setText("This request is already checked");
-                } else if (errorCode.get() == -5) {
-                    labelInfo.setText("invalid refund percentage");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         }
     }
 
-    @SuppressWarnings("all")
     void drawTable(ResultSet rs, TableView tableView) {
         tableView.getColumns().clear();
         ObservableList<ObservableList> data = FXCollections.observableArrayList();

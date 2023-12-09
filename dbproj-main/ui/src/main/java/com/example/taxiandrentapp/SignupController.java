@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
+
 public class SignupController implements Initializable {
 
     LoginModel loginModel = new LoginModel();
@@ -38,16 +40,20 @@ public class SignupController implements Initializable {
 
     @FXML
     void ConfirmSignup (){
-        try{
-            if(loginModel.validSignUp(txtEmail.getText())) {
-                loginModel.addCustomer(txtFirstName.getText(), txtLastName.getText(), txtAge.getText(), txtAddress.getText(), txtEmail.getText(), txtPassword.getText());
-                info.setText("You are signed up !");
-            } else {
-                info.setText("email duplication");
-                info.setTextFill(Color.RED);
+        if(!txtAddress.getText().isEmpty() && !txtEmail.getText().isEmpty() && !txtPassword.getText().isEmpty() && !txtFirstName.getText().isEmpty() && !txtLastName.getText().isEmpty() && isNumeric(txtAge.getText())) {
+            try {
+                if (loginModel.validSignUp(txtEmail.getText())) {
+                    loginModel.addCustomer(txtFirstName.getText(), txtLastName.getText(), txtAge.getText(), txtAddress.getText(), txtEmail.getText(), txtPassword.getText());
+                    info.setText("You are signed up !");
+                } else {
+                    info.setText("email duplication");
+                    info.setTextFill(Color.RED);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } else {
+            info.setText("Invalid or Missing Info");
         }
     }
 

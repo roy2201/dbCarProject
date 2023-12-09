@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -119,7 +118,7 @@ public class AdminSecurity implements Initializable {
     void loadRoles() {
         ArrayList<String> roles = new ArrayList<>();
         String query = "exec spLoadRoles";
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         try {
             ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
