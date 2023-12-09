@@ -13,6 +13,6 @@
         <Button fx:id="btnlogin" layoutX="100.0" layoutY="175.0" mnemonicParsing="false" onAction="#Login" text="Sign In" />
         <Button fx:id="btnsign" layoutX="200.0" layoutY="175.0" mnemonicParsing="false" onAction="#SignUp" text="Sign Up" />
         <Button layoutX="150.0" layoutY="225.0" mnemonicParsing="false" onAction="#adminMode" text="Administration" />
-      <Label id="connectionLabel" fx:id="connectionLabel" layoutX="73.0" layoutY="260.0" prefHeight="18.0" prefWidth="240.0" text="Label" />
+      <Label id="connectionLabel" fx:id="connectionLabel" layoutX="73.0" layoutY="260.0" prefHeight="18.0" prefWidth="240.0" />
     </children>
 </AnchorPane>

@@ -332,11 +332,9 @@ public class CustomerController implements javafx.fxml.Initializable {
     @FXML
     void initRequest() {
         clearLabels(errorRequestLabel,cardNumberErrorLabel,emailErrorLabel,rentIdErrorLabel);
-        System.out.println("init .................");
         String query = "exec spInitRequest ?, ?, ?, ?, ?, ?, ?, ?";
-        if(!isEmpty()) {
+        if(isNumeric(cardTextField.getText()) && isNumeric(rentIdTextField.getText()) && !emailTextField.getText().isEmpty()) {
             try {
-                System.out.println("1");
                 CallableStatement cst = con.prepareCall(query);
                 cst.setString(1, emailTextField.getText());
                 cst.setInt(2, Integer.parseInt(rentIdTextField.getText()));
@@ -399,6 +397,9 @@ public class CustomerController implements javafx.fxml.Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            errorRequestLabel.setText("WRONG INPUT");
+            errorRequestLabel.setTextFill(Color.BROWN);
         }
     }
 

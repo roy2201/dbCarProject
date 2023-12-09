@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
 
-//@SuppressWarnings("all")
 public class AdminController2 {
 
     Database db;

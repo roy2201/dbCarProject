@@ -51,7 +51,7 @@
 
         <Button onAction="#ConfirmSignup" text="Sign Up" />
         <Button onAction="#signInPage" text="Back to Sign In" />
-      <Label fx:id="info" prefHeight="18.0" prefWidth="236.0" text="Label" />
+      <Label fx:id="info" prefHeight="18.0" prefWidth="236.0" />
 
         <Label fx:id="signupStatusLabel" style="-fx-text-fill: red;" text="" />
 

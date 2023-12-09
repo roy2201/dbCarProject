@@ -62,13 +62,9 @@ public class AdminSecurity implements Initializable {
     @FXML
     private CheckBox publicBox;
 
-    public AdminSecurity() {
-        Database db = null;
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public AdminSecurity() throws SQLException {
+        Database db;
+        db = Database.getInstance();
         assert null != db;
         con = db.connect();
     }
