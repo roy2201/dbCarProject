@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
                     try {
                         db = Database.getInstance();
                         con = db.connect();
-                        addLogin(txtUser.getText());
+                        addLogin(txtUser.getText()); //WORK ON IT
                         ((Node) event.getSource()).getScene().getWindow().hide();
                         Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("customer-view.fxml"));

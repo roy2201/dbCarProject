@@ -39,12 +39,13 @@ public class SignupController implements Initializable {
     }
 
     @FXML
-    void ConfirmSignup (){
+    void ConfirmSignup (ActionEvent event){
         if(!txtAddress.getText().isEmpty() && !txtEmail.getText().isEmpty() && !txtPassword.getText().isEmpty() && !txtFirstName.getText().isEmpty() && !txtLastName.getText().isEmpty() && isNumeric(txtAge.getText())) {
             try {
                 if (loginModel.validSignUp(txtEmail.getText())) {
                     loginModel.addCustomer(txtFirstName.getText(), txtLastName.getText(), txtAge.getText(), txtAddress.getText(), txtEmail.getText(), txtPassword.getText());
                     info.setText("You are signed up !");
+                    signInPage(event);
                 } else {
                     info.setText("email duplication");
                     info.setTextFill(Color.RED);
