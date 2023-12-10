@@ -27,8 +27,6 @@ public class CustomerController implements javafx.fxml.Initializable {
     @FXML
     private TableView<?> carsTable;
     @FXML
-    private TableView<?> cardsAndRents;
-    @FXML
     private TextField nbDaysTextField;
     @FXML
     private TextField carIdTextField;
@@ -177,14 +175,14 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     void viewCardsAction() {
-        clearTable(cardsAndRents);
+        clearTable(carsTable);
         data = FXCollections.observableArrayList();
         String query = "exec spViewCards ?";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
-            drawTable(rs, cardsAndRents);
+            drawTable(rs,carsTable );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,14 +190,14 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     public void viewRentsAction() {
-        clearTable(cardsAndRents);
+        clearTable(carsTable);
         data = FXCollections.observableArrayList();
         String query = "exec spViewRents ?";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
-            drawTable(rs, cardsAndRents);
+            drawTable(rs,carsTable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -250,6 +248,7 @@ public class CustomerController implements javafx.fxml.Initializable {
         String str = rentInfoIdTextField.getText();
         if(isNumeric(str)) {
             rentId = Integer.parseInt(str);
+            System.out.println(rentId);
             String query = "exec spViewDaysLeft ?,?,?,?,?";
             CallableStatement cs = con.prepareCall(query);
             cs.setInt(1,rentId);
@@ -262,6 +261,7 @@ public class CustomerController implements javafx.fxml.Initializable {
             errorCode = cs.getInt(3);
             penalty = cs.getFloat(4);
             daysOverDue = cs.getInt(5);
+            System.out.println("errorCode : " + errorCode);
             if(errorCode == 1) {
                 daysLeftLabel.setText(daysLeft + " days left");
                 System.out.println("errorCode : " + errorCode);
@@ -405,13 +405,13 @@ public class CustomerController implements javafx.fxml.Initializable {
 
     @FXML
     void viewRequests() {
-        clearTable(cardsAndRents);
+        clearTable(carsTable);
         String query = "exec spViewMyRequest ?";
         try{
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, LoginModel.getLogged());
             ResultSet rs = ps.executeQuery();
-            drawTable(rs, cardsAndRents);
+            drawTable(rs, carsTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }

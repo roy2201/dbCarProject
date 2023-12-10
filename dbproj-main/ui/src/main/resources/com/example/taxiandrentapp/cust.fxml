@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="623.0" prefWidth="946.0" style="-fx-background-color: #fafafa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.CustomerController">
    <children>
-      <TableView fx:id="carsTable" layoutX="506.0" layoutY="-1.0" prefHeight="610.0" prefWidth="434.0" style="-fx-background-color: #fafafa; -fx-border-color: gray;" />
+      <TableView fx:id="carsTable" layoutX="506.0" layoutY="-1.0" prefHeight="623.0" prefWidth="434.0" style="-fx-background-color: #fafafa; -fx-border-color: gray;" />
       <VBox layoutX="35.0" layoutY="24.0" prefHeight="134.0" prefWidth="166.0">
          <children>
             <VBox prefHeight="62.0" prefWidth="154.0">
@@ -52,7 +52,7 @@
       </Label>
       <VBox layoutX="35.0" layoutY="192.0" prefHeight="62.0" prefWidth="180.0" style="-fx-spacing: 5;">
          <children>
-            <TextField fx:id="rentInfoIdTextField" promptText="My Rent ID is : " />
+            <TextField fx:id="rentIdTextField" promptText="My Rent ID is : " />
             <Button mnemonicParsing="false" onAction="#checkDaysLeftAction" text="Check" />
          </children>
       </VBox>
@@ -94,7 +94,7 @@
       <VBox layoutX="36.0" layoutY="474.0" prefHeight="128.0" prefWidth="148.0" style="-fx-spacing: 5;">
          <children>
             <TextField fx:id="emailTextField" promptText="Email" />
-            <TextField fx:id="rentIdTextField" promptText="Rent ID ?" />
+            <TextField fx:id="rentInfoIdTextField" promptText="Rent ID ?" />
             <TextField fx:id="cardTextField" promptText="Card Number" />
             <Button mnemonicParsing="false" onAction="#initRequest" text="Request" />
          </children>
@@ -107,7 +107,7 @@
             <Label fx:id="errorRequestLabel" prefHeight="18.0" prefWidth="298.0" text="Label" />
          </children>
       </VBox>
-      <VBox layoutX="422.0" layoutY="7.0" prefHeight="118.0" prefWidth="84.0" style="-fx-spacing: 5;">
+      <VBox layoutX="416.0" layoutY="14.0" prefHeight="118.0" prefWidth="84.0" style="-fx-spacing: 5;">
          <children>
             <Button mnemonicParsing="false" onAction="#viewRentsAction" prefHeight="26.0" prefWidth="109.0" text="My Rents" />
             <Button mnemonicParsing="false" onAction="#viewRequests" prefHeight="26.0" prefWidth="106.0" text="My Requests" />

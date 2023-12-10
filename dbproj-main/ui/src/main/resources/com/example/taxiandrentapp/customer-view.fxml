@@ -7,198 +7,113 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="671.0" prefWidth="1002.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.CustomerController">
-    <children>
-        <TableView fx:id="carsTable" layoutX="509.0" layoutY="14.0" prefHeight="303.0" prefWidth="477.0" style="-fx-border-color: gray; -fx-background-color: lightgray;" />
-        <ListView fx:id="receiptList" layoutX="302.0" layoutY="280.0" prefHeight="100.0" prefWidth="124.0" />
-        <TableView fx:id="cardsAndRents" layoutX="508.0" layoutY="394.0" prefHeight="264.0" prefWidth="483.0" style="-fx-border-color: gray; -fx-background-color: lightgray;" />
-        <Label fx:id="daysLeftLabel" layoutX="302.0" layoutY="145.0" prefHeight="61.0" prefWidth="168.0" textFill="#7300ff">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <HBox layoutX="20.0" layoutY="166.0" prefHeight="41.0" prefWidth="273.0" spacing="5.0">
-            <children>
-                <TextField fx:id="rentInfoIdTextField" prefWidth="147.0" promptText="Rent ID">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <Button mnemonicParsing="false" onAction="#checkDaysLeftAction" style="-fx-pref-width: 118.0;" text="check days left" textAlignment="CENTER">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-            </children>
-        </HBox>
-        <HBox alignment="CENTER" layoutX="509.0" layoutY="351.0" prefHeight="31.0" prefWidth="477.0" spacing="5.0">
-            <children>
-                <Button id="logout" mnemonicParsing="false" onAction="#signOutAction" prefHeight="26.0" prefWidth="78.0" style="-fx-pref-width: 91.0;" text="log out">
-                    <font>
-                        <Font name="Arial" size="14.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" style="-fx-pref-width: 84.0;" text="Statistics">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#viewRequests" style="-fx-pref-width: 95.0;" text="My Requests">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#viewRentsAction" style="-fx-pref-width: 84.0;" text="My Rents">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#viewCardsAction" prefHeight="24.0" prefWidth="95.0" style="-fx-pref-width: 84.0;" text="My Cards">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-            </children>
-        </HBox>
-        <VBox layoutX="20.0" layoutY="492.0" prefHeight="132.0" prefWidth="151.0" spacing="5.0">
-            <children>
-                <TextField fx:id="emailTextField" prefHeight="30.0" prefWidth="154.0" promptText="Email">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <TextField fx:id="rentIdTextField" prefHeight="25.0" prefWidth="166.0" promptText="Rent ID">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <TextField fx:id="cardTextField" prefHeight="25.0" prefWidth="166.0" promptText="Card number">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <Button mnemonicParsing="false" onAction="#initRequest" style="-fx-pref-width: 187.0;" text="Request Refund">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-            </children>
-        </VBox>
-        <Label fx:id="rentIdErrorLabel" layoutX="185.0" layoutY="527.0" prefHeight="17.0" prefWidth="168.0">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Label fx:id="cardNumberErrorLabel" layoutX="185.0" layoutY="559.0" prefHeight="17.0" prefWidth="168.0">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Label fx:id="emailErrorLabel" layoutX="185.0" layoutY="492.0" prefHeight="17.0" prefWidth="168.0">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <HBox layoutX="24.0" layoutY="45.0" prefHeight="41.0" prefWidth="200.0" spacing="5.0">
-            <children>
-                <ComboBox fx:id="locationComboBox" prefHeight="25.0" prefWidth="114.0" promptText="Location" />
-                <ComboBox fx:id="modelComboBox" prefHeight="25.0" prefWidth="114.0" promptText="Model" />
-            </children>
-        </HBox>
-        <VBox layoutX="231.0" layoutY="45.0" prefHeight="68.0" prefWidth="141.0" spacing="5.0">
-            <children>
-                <Button mnemonicParsing="false" onAction="#loadAllCars" style="-fx-pref-width: 99.0;" text="Show All">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#filteredSearchAction" style="-fx-pref-width: 101.0;" text="Filter Results">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-            </children>
-        </VBox>
-        <Label fx:id="errorRequestLabel" layoutX="185.0" layoutY="588.0" prefHeight="42.0" prefWidth="168.0">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Label layoutX="156.0" layoutY="21.0" text="search">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Separator layoutX="207.0" layoutY="27.0" prefHeight="3.0" prefWidth="124.0" />
-        <Separator layoutX="29.0" layoutY="29.0" prefHeight="3.0" prefWidth="112.0" />
-        <Label layoutX="131.0" layoutY="137.0" text="days left">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Label layoutX="133.0" layoutY="256.0" text="rent car">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Label layoutX="51.0" layoutY="451.0" text="request refund">
-            <font>
-                <Font name="Arial" size="13.0" />
-            </font>
-        </Label>
-        <Separator layoutX="24.0" layoutY="143.0" prefHeight="3.0" prefWidth="102.0" />
-        <Separator layoutX="186.0" layoutY="143.0" prefHeight="3.0" prefWidth="91.0" />
-        <Separator layoutX="24.0" layoutY="262.0" prefHeight="3.0" prefWidth="102.0" />
-        <Separator layoutX="190.0" layoutY="262.0" prefHeight="3.0" prefWidth="102.0" />
-        <VBox layoutX="23.0" layoutY="280.0" prefHeight="119.0" prefWidth="124.0" spacing="5.0">
-            <children>
-                <TextField fx:id="carIdTextField" prefHeight="30.0" prefWidth="151.0" promptText="Car ID" styleClass="textFields">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <TextField fx:id="nbDaysTextField" prefHeight="30.0" prefWidth="151.0" promptText="Number of Days">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <Button mnemonicParsing="false" onAction="#viewReceiptAction" style="-fx-pref-width: 151.0;" text="View Receipt">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Label fx:id="validDataLabel" prefHeight="17.0" prefWidth="151.0" textFill="RED">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Label>
-            </children>
-        </VBox>
-        <VBox layoutX="162.0" layoutY="316.0" prefHeight="100.0" prefWidth="124.0" spacing="5.0">
-            <children>
-                <TextField fx:id="cardNumberTextField" prefHeight="28.0" prefWidth="151.0" promptText="Card Number">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </TextField>
-                <Button mnemonicParsing="false" onAction="#payAction" style="-fx-pref-width: 151.0;" text="Pay Receipt">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Button>
-                <Label fx:id="statusLabel" prefHeight="19.0" prefWidth="168.0" textFill="RED">
-                    <font>
-                        <Font name="Arial" size="13.0" />
-                    </font>
-                </Label>
-            </children>
-        </VBox>
-        <Separator layoutX="17.0" layoutY="455.0" prefHeight="3.0" prefWidth="31.0" />
-        <Separator layoutX="143.0" layoutY="457.0" prefHeight="3.0" prefWidth="31.0" />
-    </children>
-</Pane>
+<AnchorPane prefHeight="623.0" prefWidth="946.0" style="-fx-background-color: #fafafa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taxiandrentapp.CustomerController">
+   <children>
+      <TableView fx:id="carsTable" layoutX="506.0" layoutY="-1.0" prefHeight="610.0" prefWidth="434.0" style="-fx-background-color: #fafafa; -fx-border-color: gray;" />
+      <VBox layoutX="35.0" layoutY="24.0" prefHeight="134.0" prefWidth="166.0">
+         <children>
+            <VBox prefHeight="62.0" prefWidth="154.0">
+               <children>
+                  <Label text="Branch">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="locationComboBox" prefHeight="26.0" prefWidth="138.0" promptText="         --SELECT--" />
+               </children>
+            </VBox>
+            <VBox prefHeight="61.0" prefWidth="162.0">
+               <children>
+                  <Label text="Brand">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="modelComboBox" prefHeight="26.0" prefWidth="138.0" promptText="         --SELECT--" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <Separator layoutX="14.0" layoutY="32.0" orientation="VERTICAL" prefHeight="560.0" prefWidth="3.0" />
+      <VBox layoutX="201.0" layoutY="50.0" prefHeight="82.0" prefWidth="100.0" style="-fx-spacing: 10;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#loadAllCars" prefHeight="26.0" prefWidth="105.0" text="Show All" />
+            <Button mnemonicParsing="false" onAction="#filteredSearchAction" prefHeight="26.0" prefWidth="103.0" text="Filter" />
+         </children>
+      </VBox>
+      <Label layoutX="35.0" layoutY="165.0" style="-fx-text-fill: gray;" text="How Many Days I Have Left ?">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="35.0" layoutY="192.0" prefHeight="62.0" prefWidth="180.0" style="-fx-spacing: 5;">
+         <children>
+            <TextField fx:id="rentInfoIdTextField" promptText="My Rent ID is : " />
+            <Button mnemonicParsing="false" onAction="#checkDaysLeftAction" text="Check" />
+         </children>
+      </VBox>
+      <Label fx:id="daysLeftLabel" layoutX="224.0" layoutY="165.0" prefHeight="100.0" prefWidth="249.0" text="label" />
+      <Label layoutX="35.0" layoutY="279.0" style="-fx-text-fill: gray;" text="Rent A Car">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="34.0" layoutY="305.0" prefHeight="118.0" prefWidth="138.0" style="-fx-spacing: 5;">
+         <children>
+            <TextField fx:id="carIdTextField" promptText="Car ID to Rent is :" />
+            <TextField fx:id="nbDaysTextField" promptText="How Many Days ?" />
+            <Button mnemonicParsing="false" onAction="#viewReceiptAction" text="View Receipt" />
+            <Label fx:id="validDataLabel" prefHeight="17.0" prefWidth="151.0" text="label" textFill="RED">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="185.0" layoutY="305.0" prefHeight="86.0" prefWidth="122.0" style="-fx-spacing: 5;">
+         <children>
+            <TextField fx:id="cardNumberTextField" promptText="My Card Number is :" />
+            <Button mnemonicParsing="false" onAction="#payAction" text="Pay" />
+            <Label fx:id="statusLabel" prefHeight="19.0" prefWidth="168.0" text="label" textFill="RED">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <ListView fx:id="receiptList" layoutX="320.0" layoutY="307.0" prefHeight="100.0" prefWidth="122.0" />
+      <Label layoutX="35.0" layoutY="443.0" style="-fx-text-fill: gray;" text="Refund">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="36.0" layoutY="474.0" prefHeight="128.0" prefWidth="148.0" style="-fx-spacing: 5;">
+         <children>
+            <TextField fx:id="emailTextField" promptText="Email" />
+            <TextField fx:id="rentIdTextField" promptText="Rent ID ?" />
+            <TextField fx:id="cardTextField" promptText="Card Number" />
+            <Button mnemonicParsing="false" onAction="#initRequest" text="Request" />
+         </children>
+      </VBox>
+      <VBox layoutX="194.0" layoutY="474.0" prefHeight="128.0" prefWidth="250.0" style="-fx-spacing: 15;">
+         <children>
+            <Label fx:id="emailErrorLabel" prefHeight="18.0" prefWidth="298.0" text="Label" />
+            <Label fx:id="rentIdErrorLabel" prefHeight="18.0" prefWidth="317.0" text="Label" />
+            <Label fx:id="cardNumberErrorLabel" prefHeight="18.0" prefWidth="321.0" text="Label" />
+            <Label fx:id="errorRequestLabel" prefHeight="18.0" prefWidth="298.0" text="Label" />
+         </children>
+      </VBox>
+      <VBox layoutX="422.0" layoutY="7.0" prefHeight="118.0" prefWidth="84.0" style="-fx-spacing: 5;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#viewRentsAction" prefHeight="26.0" prefWidth="109.0" text="My Rents" />
+            <Button mnemonicParsing="false" onAction="#viewRequests" prefHeight="26.0" prefWidth="106.0" text="My Requests" />
+            <Button mnemonicParsing="false" onAction="#viewCardsAction" prefHeight="26.0" prefWidth="103.0" text="My Cards" />
+         </children>
+      </VBox>
+      <Button layoutX="446.0" layoutY="589.0" mnemonicParsing="false" onAction="#signOutAction" text="log out" />
+   </children>
+</AnchorPane>
